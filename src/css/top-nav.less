@@ -1,0 +1,43 @@
+.top-nav { 
+    --nav-height: 48px;
+
+    width: 100%;
+    // 4 阴影模糊半径 设置阴影扩散半径的模糊度 | 1 阴影扩散半径
+    box-shadow: 0 0 4px 1px rgba(0, 0, 0, .15);
+    z-index: 100; // 防止容器Flex布局时被主体部分盖住
+}
+
+.nav-right {
+    display: flex;
+	justify-content: flex-end;
+	margin-left: auto; 
+}
+
+.nav-item {
+	display: inline-flex;
+	align-items: center;
+
+	padding: 0 1.5rem;
+	line-height: var(--nav-height);
+
+	font-size: 16px;
+	background-color: transparent;
+	cursor: pointer;
+	// 文本是否可选中
+	user-select: none;
+
+	& > svg { //儿子 svg
+		font-size: 28px;
+	}
+    //等同于 .nav-item:hover && .nav-item:focus
+	&:hover, &:focus {
+		text-decoration: none;
+		color: black;
+		background-color: rgba(255, 255, 255, 0.4);
+	}
+
+	@media screen and (max-width: @length-screen-mobile) {
+		padding: 0 1rem;
+	}
+
+}

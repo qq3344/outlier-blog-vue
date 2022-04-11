@@ -3,6 +3,9 @@
         <router-link to="/" title="回到首页" :class="$style.logoLink">
             <img src="@/assets/img/logo-kaciras-wide.svg" alt="logo" :class="$style.logo">
         </router-link>
+        <button v-if="breakPoint.value == 'mobile'" title="弹出菜单" class="nav-item nav-right" @click="showMenu">
+
+        </button>
         <div class="nav-right">
             <template v-if="user.id > 0">
                 <router-link to="/profile">
@@ -13,20 +16,33 @@
                 </router-link>
                 <button class="nav-item" @click="logout">退出登录</button>
             </template>
+            <router-link v-else to="/login" class="nav-item">
+                登录
+            </router-link>
+            <router-link to="/list" class="nav-item">
+                文章
+            </router-link>
+            <router-link to="/about" class="nav-item">
+                关于
+            </router-link> 
         </div>
         </component>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useCurrentUser } from '@/store'
+import { useBreakPoint } from '@/utils/break-point';
+
 interface TopNavBodyProps {
     tag?: string;
 }
 //给 props 设置默认值
 withDefaults(defineProps<TopNavBodyProps>(), {
+    // 动态组件的默认组件名为:nav
     tag: "nav",
 })
 
+const breakPoint = useBreakPoint()
 const user = useCurrentUser()
 const colored = ref(false)
 
@@ -34,8 +50,21 @@ function logout() {
     return user.logout();
 }
 
+function showMenu() {
+    console.log("show menu");
+}
+
+function scrollFunction() {
+	colored.value = document.body.scrollTop > 16 || document.documentElement.scrollTop > 16;
+}
+
+if(breakPoint.value == "mobile") {
+    window.addEventListener("scroll", scrollFunction)
+}
+
 </script>
 <style module lang="less">
+@import "@/css/variable.less";
 .container {
     display: flex;
     background-color: rgba(255, 255, 255, .5);
